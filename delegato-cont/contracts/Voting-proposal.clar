@@ -157,3 +157,78 @@
     )
   )
 )
+
+;; Function to get the current status of a proposal
+(define-read-only (get-proposal-status (proposal-id uint))
+  (let
+    (
+      (proposal (unwrap! (map-get? proposals { proposal-id: proposal-id }) (err ERR_INVALID_PROPOSAL)))
+      (current-time stacks-block-height)
+    )
+    ;; If the proposal is pending and the start time has passed, update to active
+    (if (and (is-eq (get status proposal) STATUS_PENDING)
+             (>= current-time (get start-time proposal)))
+        (begin
+          ;; Note: In read-only functions we can't modify state, so this is just for the return value
+          (ok STATUS_ACTIVE)
+        )
+        ;; Otherwise return the current status
+        (ok (get status proposal))
+    )
+  )
+)
+
+;; Function to get detailed information about a proposal
+(define-read-only (get-proposal-details (proposal-id uint))
+  (map-get? proposals { proposal-id: proposal-id })
+)
+
+;; Function to check if a principal has voted on a specific proposal
+(define-read-only (has-voted (proposal-id uint) (voter principal))
+  (is-some (map-get? votes { proposal-id: proposal-id, voter: voter }))
+)
+
+;; Function to get vote details for a specific voter on a proposal
+(define-read-only (get-vote-details (proposal-id uint) (voter principal))
+  (map-get? votes { proposal-id: proposal-id, voter: voter })
+)
+
+;; Function to activate a pending proposal (if it's time)
+(define-public (activate-proposal (proposal-id uint))
+  (let
+    (
+      (proposal (unwrap! (map-get? proposals { proposal-id: proposal-id }) (err ERR_INVALID_PROPOSAL)))
+      (current-time stacks-block-height)
+    )
+    ;; Check if the proposal is pending and start time has passed
+    (asserts! (is-eq (get status proposal) STATUS_PENDING) (err ERR_INVALID_PROPOSAL))
+    (asserts! (>= current-time (get start-time proposal)) (err ERR_PROPOSAL_NOT_STARTED))
+    
+    ;; Update the proposal status to active
+    (map-set proposals
+      { proposal-id: proposal-id }
+      (merge proposal { status: STATUS_ACTIVE })
+    )
+    
+    (ok true)
+  )
+)
+
+;; Function to close a proposal early (only by creator)
+(define-public (close-proposal (proposal-id uint))
+  (let
+    (
+      (proposal (unwrap! (map-get? proposals { proposal-id: proposal-id }) (err ERR_INVALID_PROPOSAL)))
+    )
+    ;; Check if the caller is the creator
+    (asserts! (is-eq tx-sender (get creator proposal)) (err ERR_UNAUTHORIZED))
+    
+    ;; Update the proposal status to closed
+    (map-set proposals
+      { proposal-id: proposal-id }
+      (merge proposal { status: STATUS_CLOSED })
+    )
+    
+    (ok true)
+  )
+)
