@@ -1,7 +1,3 @@
-Here's a detailed `README.md` tailored for **Delegato**, a decentralized proxy voting platform built on the **Stacks blockchain**:
-
----
-
 # 🗳️ Delegato
 
 **Delegato** is a decentralized proxy voting platform designed to empower shareholders to securely delegate their voting rights. Built on the **Stacks blockchain**, Delegato ensures transparent, tamper-proof governance and seamless voting delegation using smart contracts and Clarity.
