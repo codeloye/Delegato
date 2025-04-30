@@ -7,12 +7,21 @@ cache_dir = '.\.cache'
 requirements = []
 [contracts.proxy-management]
 path = 'contracts/proxy-management.clar'
+clarity_version = 1
+epoch = 2.05
+
 [contracts.shareholder-registration]
 path = 'contracts/shareholder-registration.clar'
 clarity_version = 3
 epoch = 3.0
+
 [contracts.vote-delegation]
 path = 'contracts/vote-delegation.clar'
+clarity_version = 3
+epoch = 3.0
+
+[contracts.voting-rights]
+path = 'contracts/voting-rights.clar'
 clarity_version = 3
 epoch = 3.0
 [repl.analysis]
