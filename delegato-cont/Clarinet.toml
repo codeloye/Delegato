@@ -10,6 +10,11 @@ path = 'contracts/Voting-proposal.clar'
 clarity_version = 1
 epoch = 2.05
 
+[contracts.proxy-governance]
+path = 'contracts/proxy-governance.clar'
+clarity_version = 3
+epoch = 3.0
+
 [contracts.proxy-management]
 path = 'contracts/proxy-management.clar'
 clarity_version = 1
