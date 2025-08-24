@@ -58,7 +58,7 @@
     )
     ;; Validate inputs
     (asserts! (> end-time start-time) (err ERR_INVALID_PROPOSAL))
-    (asserts! (>= start-time stacks-block-height) (err ERR_INVALID_PROPOSAL))
+    (asserts! (>= start-time block-height) (err ERR_INVALID_PROPOSAL))
     
     ;; Create the proposal
     (map-set proposals
@@ -89,7 +89,7 @@
   (let
     (
       (proposal (unwrap! (map-get? proposals { proposal-id: proposal-id }) (err ERR_INVALID_PROPOSAL)))
-      (current-time stacks-block-height)
+      (current-time block-height)
     )
     ;; Check if the proposal is active
     (asserts! (>= current-time (get start-time proposal)) (err ERR_PROPOSAL_NOT_STARTED))
@@ -135,7 +135,7 @@
   (let
     (
       (proposal (unwrap! (map-get? proposals { proposal-id: proposal-id }) (err ERR_INVALID_PROPOSAL)))
-      (current-time stacks-block-height)
+      (current-time block-height)
     )
     ;; Check if the proposal has ended
     (asserts! (> current-time (get end-time proposal)) (err ERR_PROPOSAL_NOT_STARTED))
@@ -163,7 +163,7 @@
   (let
     (
       (proposal (unwrap! (map-get? proposals { proposal-id: proposal-id }) (err ERR_INVALID_PROPOSAL)))
-      (current-time stacks-block-height)
+      (current-time block-height)
     )
     ;; If the proposal is pending and the start time has passed, update to active
     (if (and (is-eq (get status proposal) STATUS_PENDING)
@@ -198,7 +198,7 @@
   (let
     (
       (proposal (unwrap! (map-get? proposals { proposal-id: proposal-id }) (err ERR_INVALID_PROPOSAL)))
-      (current-time stacks-block-height)
+      (current-time block-height)
     )
     ;; Check if the proposal is pending and start time has passed
     (asserts! (is-eq (get status proposal) STATUS_PENDING) (err ERR_INVALID_PROPOSAL))
