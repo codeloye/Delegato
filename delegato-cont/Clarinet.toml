@@ -1,56 +1,19 @@
 [project]
-name = 'delegato-cont'
-description = ''
+name = "delegato-cont"
 authors = []
+description = ""
 telemetry = true
-cache_dir = '.\.cache'
 requirements = []
-[contracts.Voting-proposal]
-path = 'contracts/Voting-proposal.clar'
-clarity_version = 1
-epoch = 2.05
+[contracts.nft-reward]
+path = "contracts/nft-reward.clar"
+depends_on = []
 
-[contracts.dispute-resolution]
-path = 'contracts/dispute-resolution.clar'
-clarity_version = 3
-epoch = 3.0
+[repl]
+costs_version = 2
+parser_version = 2
 
-[contracts.proxy-governance]
-path = 'contracts/proxy-governance.clar'
-clarity_version = 3
-epoch = 3.0
-
-[contracts.proxy-management]
-path = 'contracts/proxy-management.clar'
-clarity_version = 1
-epoch = 2.05
-
-[contracts.proxy-voting]
-path = 'contracts/proxy-voting.clar'
-clarity_version = 3
-epoch = 3.0
-
-[contracts.shareholder-registration]
-path = 'contracts/shareholder-registration.clar'
-clarity_version = 3
-epoch = 3.0
-
-[contracts.vote-delegation]
-path = 'contracts/vote-delegation.clar'
-clarity_version = 3
-epoch = 3.0
-
-[contracts.voting-rights]
-path = 'contracts/voting-rights.clar'
-clarity_version = 3
-epoch = 3.0
-
-[contracts.voting-security]
-path = 'contracts/voting-security.clar'
-clarity_version = 3
-epoch = 3.0
 [repl.analysis]
-passes = ['check_checker']
+passes = ["check_checker"]
 
 [repl.analysis.check_checker]
 strict = false
